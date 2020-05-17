@@ -7,7 +7,7 @@
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
     "test": "jest --watchAll --runInBand",
-    "docker-test": "env-cmd ./config/test.env jest --watchAll --runInBand",
+    "docker-test": "env-cmd ./config/test.env jest --runInBand",
     "docker-run": "env-cmd ./config/test.env nodemon src/index.js"
   },
   "jest": {
