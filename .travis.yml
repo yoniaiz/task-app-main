@@ -9,7 +9,7 @@ before_install:
   - docker build -t yonatanaiz/client -f ./tasksapp/front/Dockerfile.dev ./tasksapp/front
 
 script:
-  - docker run -d -p 27017-27019:27017-27019 --name mongodb mongo
+  - docker run -d -p 27017-27019:27017-27019 --name mongodb --bind_ip_all mongo
   - docker run -e CI=true yonatanaiz/server npm run docker-test
   - docker run -e CI=true yonatanaiz/client npm run test
 
