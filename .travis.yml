@@ -4,12 +4,13 @@ services:
   - docker
 
 before_install:
+  - docker pull mongo
   - docker build -t yonatanaiz/server -f ./tasksapp/server/Dockerfile.dev ./tasksapp/server
   - docker build -t yonatanaiz/client -f ./tasksapp/front/Dockerfile.dev ./tasksapp/front
 
 script:
-  - docker run --name mongo -d mongo
-  - docker run -e CI=true yonatanaiz/server --rm mongo mongo --host mongo npm run docker-test
+  - docker run -d -p 27017-27019:27017-27019 --name mongodb mongo
+  - docker run -e CI=true yonatanaiz/server npm run docker-test
   - docker run -e CI=true yonatanaiz/client npm run test
 
 after_success:
