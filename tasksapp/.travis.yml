@@ -1,0 +1,12 @@
+language: generic
+sudo: required
+services:
+    - docker
+
+before_install:
+    - docker build -t yonatanaiz/server -f ./server/Dockerfile.dev ./server
+    - docker build -t yonatanaiz/client -f ./front/Dockerfile.dev ./front
+
+script:
+    - docker run -e CI=true yonatanaiz/server npm run test
+    - docker run -e CI=true yonatanaiz/client npm run test
