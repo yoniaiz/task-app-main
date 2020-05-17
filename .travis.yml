@@ -11,7 +11,7 @@ before_install:
 script:
   - docker run --name my-mongo -d -v /tmp/mongodb:/data/db -p 27017:27017 hello-mongo
   - docker ps
-  - docker run --link my-mongo:mongo -e CI=true yonatanaiz/server npm run docker-test
+  - docker run --link my-mongo:mongo yonatanaiz/server npm run docker-test
   # - docker run -e CI=true yonatanaiz/client npm run test
 
 after_success:
