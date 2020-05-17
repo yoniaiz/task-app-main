@@ -4,7 +4,7 @@ services:
   - docker
 
 before_install:
-  - docker build -t hello-mongo:latest ./tasksapp/server/Dockerfile.mongo ./tasksapp/server
+  - docker build -t hello-mongo:latest -f ./tasksapp/server/Dockerfile.mongo ./tasksapp/server
   - docker build -t yonatanaiz/server -f ./tasksapp/server/Dockerfile.dev ./tasksapp/server
   - docker build -t yonatanaiz/client -f ./tasksapp/front/Dockerfile.dev ./tasksapp/front
 
