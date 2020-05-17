@@ -7,7 +7,6 @@ const fetch = require("node-fetch");
 exports.getLocations = async (req, res, next) => {
   try {
     const location = await Location.find();
-
     res.json({
       success: true,
       count: location.length,

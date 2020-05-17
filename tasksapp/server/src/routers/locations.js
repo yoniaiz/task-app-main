@@ -7,7 +7,7 @@ const {
   predictions,
 } = require("../controlers/locations");
 
-router.route("/").get(auth, getLocations);
+router.route("/all").get(auth, getLocations);
 router.route("/search").get(auth, predictions);
 router.route("/:id").post(auth, addLocation);
 
