@@ -18,7 +18,7 @@ after_success:
   - docker build -t yonatanaiz/client -f ./tasksapp/front/Dockerfile.dev ./tasksapp/front
 
 after_success:
-  - docker build -t yonatanaiz/tasks-client ./tasksapp/client
+  - docker build -t yonatanaiz/tasks-client ./tasksapp/front
   - docker build -t yonatanaiz/tasks-server ./tasksapp/server
   - docker build -t yonatanaiz/tasks-nginx  ./tasksapp/nginx
   # login to docker hub
