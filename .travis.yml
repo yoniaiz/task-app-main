@@ -6,13 +6,24 @@ services:
 before_install:
   - docker build -t hello-mongo:latest -f ./tasksapp/server/Dockerfile.mongo ./tasksapp/server
   - docker build -t yonatanaiz/server -f ./tasksapp/server/Dockerfile.dev ./tasksapp/server
-  # - docker build -t yonatanaiz/client -f ./tasksapp/front/Dockerfile.dev ./tasksapp/front
+  - docker build -t yonatanaiz/client -f ./tasksapp/front/Dockerfile.dev ./tasksapp/front
 
 script:
   - docker run --name my-mongo -d -v /tmp/mongodb:/data/db -p 27017:27017 hello-mongo
   - docker run --link my-mongo:mongo -e CI=true -e MONGODB_URL=mongodb://mongo:27017/task-manager-api -e PORT=8080 -e SENDGRID_API_KEY="$SENDGRID_API_KEY" -e JWT_SECRET="$JWT_SECRET" -e GEOCODER_PROVIDER=here -e GEOCODER_APP_ID="$GEOCODER_APP_ID" -e GEOCODER_API_KEY="$GEOCODER_KEY" yonatanaiz/server npm run docker-test -- --coverage
-  # - docker run -e CI=true yonatanaiz/client npm run test
+  - docker run -e CI=true yonatanaiz/client npm run test
 
 after_success:
   - docker build -t yonatanaiz/server -f ./tasksapp/server/Dockerfile.dev ./tasksapp/server
-  # - docker build -t yonatanaiz/client -f ./tasksapp/front/Dockerfile.dev ./tasksapp/front
+  - docker build -t yonatanaiz/client -f ./tasksapp/front/Dockerfile.dev ./tasksapp/front
+
+after_success:
+  - docker build -t yonatanaiz/tasks-client ./tasksapp/client
+  - docker build -t yonatanaiz/tasks-server ./tasksapp/server
+  - docker build -t yonatanaiz/tasks-nginx  ./tasksapp/nginx
+  # login to docker hub
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # push to docker hun
+  - docker push yonatanaiz/tasks-server
+  - docker push yonatanaiz/tasks-client
+  - docker push yonatanaiz/tasks-nginx
